@@ -1,0 +1,520 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package McDonalds;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Benja-PC
+ */
+public class McDonaldsInterfaz extends javax.swing.JFrame {
+    String bd = "mc-boliche";
+    String url = "jdbc:mysql://localhost:3306/";
+    String user = "root";
+    String password = "1234";
+    String driver="com.mysql.cj.jdbc.Driver";
+    Connection cx;
+    ResultSet rs;
+    PreparedStatement st;
+    
+    //ArrayList<Pedido> nomina = new ArrayList();
+    //Pedido pedido = new Pedido();
+    DefaultTableModel modelo = new DefaultTableModel();
+    Double totalPedido = 0.0;
+    ImageIcon logo;
+    ImageIcon comida;
+    Pedido pedido = new Pedido();
+    
+    public McDonaldsInterfaz() throws SQLException {
+        conectarBase();
+        initComponents();
+        armarTabla();
+        mostrarLogo();
+    }
+    
+    private void cargarImagenes(int cod){
+        switch(cod){
+            case 1000: 
+                comida = new ImageIcon(getClass().getResource("mcBacon.jpg"));  
+                imgFoto.setIcon(comida);
+            break;
+            case 1001: 
+                comida = new ImageIcon(getClass().getResource("mcNifica.jpeg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 1002: 
+                comida = new ImageIcon(getClass().getResource("cuartoDeLibra.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 1003: 
+                comida = new ImageIcon(getClass().getResource("bigMac.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 2000: 
+                comida = new ImageIcon(getClass().getResource("mcNuggets.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 2001: 
+                comida = new ImageIcon(getClass().getResource("mcPollo.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 3000: 
+                comida = new ImageIcon(getClass().getResource("papas.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 3001: 
+                comida = new ImageIcon(getClass().getResource("ensalada.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 4000: 
+                comida = new ImageIcon(getClass().getResource("gaseosa.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 4001: 
+                comida = new ImageIcon(getClass().getResource("gaseosaLight.jpg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 4002: 
+                comida = new ImageIcon(getClass().getResource("agua.png"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 5000: 
+                comida = new ImageIcon(getClass().getResource("sundae.jpeg"));  
+                imgFoto.setIcon(comida);
+                break;
+            case 5001: 
+                comida = new ImageIcon(getClass().getResource("cono.jpeg"));  
+                imgFoto.setIcon(comida);
+                break;
+            default: 
+                comida = new ImageIcon(getClass().getResource("error.png"));
+                imgFoto.setIcon(comida);
+        }
+    }
+    
+    private void mostrarLogo(){
+        logo = new ImageIcon(getClass().getResource("logoprincipal.png"));
+        img.setIcon(logo);
+    }
+    private void conectarBase() throws SQLException{
+        try {
+            Class.forName(driver);
+            cx=DriverManager.getConnection(url+bd,user, password);
+            System.out.println("Se conecto exitosamente");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(McDonaldsInterfaz.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No se conecto a la base");
+        }
+    }
+    private void armarTabla(){
+        tblCodigos.setModel(modelo);
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Precio");
+    }
+    private void limpiarTxt(){
+        txtTotal.setText("");
+        txtPago.setText("");
+        txtCambio.setText("");
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        btnIngresar = new javax.swing.JButton();
+        btnVerCodigos = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCodigos = new javax.swing.JTable();
+        btnFinalizar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
+        txtPago = new javax.swing.JTextField();
+        txtCambio = new javax.swing.JTextField();
+        img = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
+        imgFoto = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 0, 0));
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Codigo del producto");
+
+        txtCodigo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
+
+        btnIngresar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
+
+        btnVerCodigos.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnVerCodigos.setText("VER CODIGOS");
+        btnVerCodigos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerCodigosActionPerformed(evt);
+            }
+        });
+
+        tblCodigos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblCodigos);
+
+        btnFinalizar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnFinalizar.setText("Finalizar Pedido");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Total:");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Su pago:");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Cambio:");
+
+        txtTotal.setEditable(false);
+        txtTotal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        txtPago.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPagoActionPerformed(evt);
+            }
+        });
+        txtPago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPagoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPagoKeyTyped(evt);
+            }
+        });
+
+        txtCambio.setEditable(false);
+        txtCambio.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        btnEliminar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        imgFoto.setText("jLabel5");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(83, 83, 83)
+                                    .addComponent(btnIngresar)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnEliminar)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnVerCodigos))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(256, 256, 256))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(imgFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnFinalizar)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel1)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btnVerCodigos)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnIngresar)
+                        .addComponent(btnEliminar)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnFinalizar)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(imgFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVerCodigosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerCodigosActionPerformed
+        try {
+            new CodigosInterfaz().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(McDonaldsInterfaz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnVerCodigosActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        String validar = txtCodigo.getText();
+        if(validar.equalsIgnoreCase("")){
+            JOptionPane.showMessageDialog(null, "Error. ¡Ingrese un codigo!");
+        } else{
+            try {
+            //Limpio los cuadros de texto
+            limpiarTxt();
+            //Guardo el codigo ingresado por el usuario en una variable local
+            int codigo = Integer.parseInt(txtCodigo.getText());
+            //Buscar el codigo en la base de datos
+            st = cx.prepareStatement("SELECT * FROM productos WHERE idproducto = ?");
+            st.setInt(1, codigo);
+            rs = st.executeQuery();
+            
+            cargarImagenes(codigo);
+            
+            String vector[] = new String[4];
+            
+            while(rs.next()){
+                vector[0] = String.valueOf(rs.getInt("idproducto"));
+                vector[1] = rs.getString("tipo");
+                vector[2] = rs.getString("descripcion");
+                vector[3] = String.valueOf(rs.getDouble("precio"));
+                modelo.addRow(vector);
+                totalPedido += Double.parseDouble(vector[3]);
+            }
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(McDonaldsInterfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        int tecla = evt.getKeyChar();
+        boolean numero = (tecla>=48 && tecla<=57);
+        
+        if(!numero) {
+            evt.consume();
+        }
+        if(txtCodigo.getText().trim().length()==9) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        txtTotal.setText(String.valueOf(totalPedido));
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void txtPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPagoActionPerformed
+        
+    }//GEN-LAST:event_txtPagoActionPerformed
+
+    private void txtPagoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyTyped
+        int tecla = evt.getKeyChar();
+        boolean numero = (tecla>=48 && tecla<=57);
+        
+        if(!numero) {
+            evt.consume();
+        }
+        
+        if(txtPago.getText().trim().length()==9) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPagoKeyTyped
+
+    private void txtPagoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyPressed
+        char c = (char)evt.getKeyCode();
+        if(c == evt.VK_ENTER){
+            int pago = Integer.parseInt(txtPago.getText());
+            double cambio;
+            
+            cambio = pago - totalPedido;
+            
+            if(pago >= totalPedido){
+                txtCambio.setText(String.valueOf(cambio));
+            } else{
+                txtCambio.setText("");
+                JOptionPane.showMessageDialog(null, "Pago insuficiente");
+            }
+            
+        }
+    }//GEN-LAST:event_txtPagoKeyPressed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int row = tblCodigos.getSelectedRow();
+        if(row >= 0 ){
+            double precioFila = Double.parseDouble((String) modelo.getValueAt(row, 3));
+            modelo.removeRow(row);
+            totalPedido -= precioFila;
+        }
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(McDonaldsInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(McDonaldsInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(McDonaldsInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(McDonaldsInterfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new McDonaldsInterfaz().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(McDonaldsInterfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnFinalizar;
+    private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnVerCodigos;
+    private javax.swing.JLabel img;
+    private javax.swing.JLabel imgFoto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblCodigos;
+    private javax.swing.JTextField txtCambio;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtPago;
+    private javax.swing.JTextField txtTotal;
+    // End of variables declaration//GEN-END:variables
+
+}
