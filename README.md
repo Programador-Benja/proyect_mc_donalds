@@ -2,7 +2,9 @@
 
 Aplicación de escritorio desarrollada en **Java Swing** que simula un sistema de pedidos tipo McDonald's, permitiendo seleccionar productos por código, visualizar el pedido y calcular el total y el cambio.
 
-<img width="362" height="261" alt="logoprincipal" src="https://github.com/user-attachments/assets/34094b30-0106-45e2-998e-cecb44c486b7" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/34094b30-0106-45e2-998e-cecb44c486b7" width="450" />
+</p>
 
 
 ---
